@@ -1,3 +1,4 @@
+// change key and change name this file to index.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from 'firebase/auth'
