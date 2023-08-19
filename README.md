@@ -1,4 +1,4 @@
-# firebase
+# vue - firebase
 
 ## Project setup
 ```
