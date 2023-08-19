@@ -2,7 +2,7 @@
 	<div class="container text-center">
 		<div class="row align-items-start">
 			<div class="col-auto">
-				<select class="form-select" v-model="select_data" v-on:change="getData">
+				<select class="form-select" v-model="select_data" v-on:change="getData"> 
 					<option value="all">ทั้งหมด</option>
 					<option value="unsuccess">ยังไม่เสร็จ</option>
 					<option value="success">เสร็จแล้ว</option>
@@ -96,13 +96,13 @@
 
 		data () {
 			return {
-				select_data:'all', 
+				select_data:'success', 
 				myModal:'', 
 				data_TodoList:[],
 				add_date:'',
 				add_title:'',
 				add_detail:'',
-				ele_datepicker:''
+				ele_datepicker:'',
 			}
 		},
 		created() {
@@ -171,9 +171,9 @@
 				}else if(self.select_data == 'unsuccess'){
 					this_where = where("success_datetime", "==", null);
 				}else if(self.select_data == 'success'){
-					this_where = where("success_datetime", "!=", null);
+					this_where = where("success_datetime", "!=", '');
 				}
-				onSnapshot(query(collection(db, 'todo_list/'+auth.currentUser.uid+'/data'), this_where, orderBy('add_datetime', 'desc'), limit(10)), (snap) => {
+				onSnapshot(query(collection(db, 'todo_list/'+auth.currentUser.uid+'/data'), this_where, orderBy('success_datetime', 'desc'), orderBy('add_datetime', 'desc'), limit(10)), (snap) => {
 					self.data_TodoList = [];
 					snap.forEach((doc) => {
 						self.data_TodoList.push(doc)
