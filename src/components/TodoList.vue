@@ -165,20 +165,29 @@
 			}, 
 			async getData() {
 				var self = this;
-				var this_where = '';
 				if(self.select_data == 'all'){
-					this_where = '';
-				}else if(self.select_data == 'unsuccess'){
-					this_where = where("success_datetime", "==", null);
-				}else if(self.select_data == 'success'){
-					this_where = where("success_datetime", "!=", '');
-				}
-				onSnapshot(query(collection(db, 'todo_list/'+auth.currentUser.uid+'/data'), this_where, orderBy('success_datetime', 'desc'), orderBy('add_datetime', 'desc'), limit(10)), (snap) => {
+					onSnapshot(query(collection(db, 'todo_list/'+auth.currentUser.uid+'/data'), orderBy('success_datetime', 'desc'), orderBy('add_datetime', 'desc'), limit(10)), (snap) => {
 					self.data_TodoList = [];
 					snap.forEach((doc) => {
 						self.data_TodoList.push(doc)
 					})
 				})
+				}else if(self.select_data == 'unsuccess'){
+					onSnapshot(query(collection(db, 'todo_list/'+auth.currentUser.uid+'/data'), where("success_datetime", "==", null), orderBy('success_datetime', 'desc'), orderBy('add_datetime', 'desc'), limit(10)), (snap) => {
+					self.data_TodoList = [];
+					snap.forEach((doc) => {
+						self.data_TodoList.push(doc)
+					})
+				})
+				}else if(self.select_data == 'success'){
+					onSnapshot(query(collection(db, 'todo_list/'+auth.currentUser.uid+'/data'), where("success_datetime", "!=", null), orderBy('success_datetime', 'desc'), orderBy('add_datetime', 'desc'), limit(10)), (snap) => {
+					self.data_TodoList = [];
+					snap.forEach((doc) => {
+						self.data_TodoList.push(doc)
+					})
+				})
+				}
+				
 			}
 		}
 	}
